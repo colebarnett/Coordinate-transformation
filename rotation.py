@@ -94,7 +94,7 @@ def azimuthal(angle=0,length=0):
     print(f'Angle {angle:.2f} corresponds to {length:.2f} inch or {length*10:.1f} big gaps.')
 
 
-def spherical_cartesian(r,theta,phi):
+def spherical_cartesian(z,theta,phi):
     '''
     Tranform from spherical to cartesian coordinates.
     theta and phi are in angles
@@ -102,9 +102,9 @@ def spherical_cartesian(r,theta,phi):
     theta = toRadian(theta)
     phi = toRadian(phi)
 
-    x = r * cos(theta) * cos(phi)
-    y = r * cos(theta) * sin(phi)
-    z = r * sin(theta)
+    z = z
+    y = z * tan(theta)
+    x = y / tan(phi)
 
     return x,y,z
 
@@ -172,8 +172,8 @@ class stereotax:
 
         ## New basis
         self.ex = [1,0,0]
-        self.ey = spherical_cartesian(1, 0+theta, 90+phi)
-        self.ez = spherical_cartesian(1, 90+theta, 0+phi)
+        self.ey = [0,cos(theta),sin(theta)]
+        self.ez = [cos(phi),sin(phi),0]
 
 
     def moveback(self):
